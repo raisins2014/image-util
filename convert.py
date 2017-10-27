@@ -20,17 +20,27 @@ def mv(src, dst_dir):
         print("Cannot move", src, "to", target)
     return target
 
-
 def convert_and_mv(src, dst_dir, ext="png"):
     return mv(convert(src, ext), dst_dir)
-
 
 def convert_and_mv_all(fd, dst_dir, ext="png"):
     files = os.listdir(fd)
     files = [os.path.join(fd, f) for f in files]
+    return [convert_and_mv(f, dst_dir, ext) for f in files]
 
-    for f in files:
-        convert_and_mv(f, dst_dir, ext)
+def rename_all(fd, name):
+    files = os.listdir(fd)
+    files = [os.path.join(fd, f) for f in files]
+    for i in range(len(files)):
+        f = files[i]
+        try:
+            path, fn = os.path.split(f)
+            n, ext = os.path.splitext(fn)
+            target = os.path.join(path, name + " - " + str(i) + ext)
+            os.rename(f, target)
+        except FileNotFoundError:
+            print(f,"does not exist")
+            print(target)
 
 if __name__ == "__main__":
     args = sys.argv[1:]
@@ -41,5 +51,7 @@ if __name__ == "__main__":
         convert(args[1], args[2])
     elif cmd == "convert_all" and len(args) == 4:
         convert_and_mv_all(args[1], args[2], args[3])
+    elif cmd == "rename_all" and len(args) == 3:
+        rename_all(args[1], args[2])
     else:
         print("Invalid use case.")
