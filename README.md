@@ -10,6 +10,15 @@ python convert.py <cmd> <args>
 * `convert <file> <extension>`
 * `convert_all <source dir> <dest dir> <ext>`
 
+### File utilities
+TO use `files.py` run
+```
+python files.py <cmd> <args>
+```
+
+#### Valid commands:
+* `mv_to <file> <dest dir>`
+* `rename_all <dir> <prefix>` - renames ith file in directory to "prefix - i" (perserves extension)
 ### Dependencies
 * Python 3.x
 * pillow
